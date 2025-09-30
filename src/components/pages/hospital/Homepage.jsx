@@ -11,17 +11,17 @@ const Homepage = () => {
       {/* Main content wrapper ensures content isn't hidden behind fixed navbar */}
       <main className="pt-20">
         {/* Hero Section */}
-        <section id="home" className="relative bg-gradient-to-br from-blue-50 via-white to-green-50 min-h-screen flex items-center overflow-hidden">
+        <section id="home" className="relative bg-gray-50 min-h-screen flex items-center">
           <div className="absolute inset-0 bg-grid-pattern opacity-5"></div>
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16">
             <div className="grid lg:grid-cols-2 gap-8 lg:gap-10 items-center">
               <div className="space-y-6">
                 <div className="space-y-3">
-                <div className="inline-flex items-center bg-green-100 text-green-800 px-4 py-2 rounded-full text-sm font-medium">
+                <div className="inline-flex items-center bg-green-100 text-green-800 px-3 py-1 rounded-md text-sm font-medium">
                   <Shield className="h-4 w-4 mr-2" />
                   Digital Health Innovation
                 </div>
-                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-900 leading-tight">
+                <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-gray-800 leading-tight">
                   <span className="text-blue-600">NPVRS</span>: National Patient Vital Record System
                   <span className="block text-green-600">Transforming Nigeria's Primary Healthcare</span>
                 </h1>
@@ -30,11 +30,11 @@ const Homepage = () => {
                 </p>
               </div>
               <div className="flex flex-col sm:flex-row gap-4">
-                <button type="button" className="bg-gradient-to-r from-blue-600 to-green-600 text-white px-8 py-4 rounded-xl font-semibold hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1 flex items-center justify-center focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600/70">
+                <button type="button" className="bg-blue-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center focus:outline-none">
                   Launch NPVRS
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </button>
-                <button type="button" className="border-2 border-blue-200 text-blue-700 px-8 py-4 rounded-xl font-semibold hover:bg-blue-50 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600/40">
+                <button type="button" className="border border-gray-300 text-gray-700 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors focus:outline-none">
                   View White Paper
                 </button>
               </div>
@@ -54,25 +54,25 @@ const Homepage = () => {
               </div>
             </div>
             <div className="relative md:-mt-8 lg:-mt-12">
-              <div className="bg-gradient-to-r from-blue-100 to-green-100 rounded-3xl p-6 sm:p-8 md:transform md:rotate-3 md:hover:rotate-1 transition-transform duration-500 max-w-md md:max-w-none mx-auto">
-                <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-2xl md:transform md:-rotate-3">
+              <div className="bg-gray-100 rounded-md p-6 sm:p-8 max-w-md md:max-w-none mx-auto">
+                <div className="bg-white rounded-md p-5 sm:p-6 border border-gray-200">
                   <div className="space-y-4">
                     <div className="flex items-center space-x-3">
-                      <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-green-500 rounded-full flex items-center justify-center">
+                      <div className="w-12 h-12 bg-blue-600 rounded-md flex items-center justify-center">
                         <Heart className="h-6 w-6 text-white" />
                       </div>
                       <div>
-                        <h3 className="font-semibold text-gray-900">Patient Profile</h3>
+                        <h3 className="font-semibold text-gray-800">Patient Profile</h3>
                         <p className="text-sm text-gray-600">Instant Health Access</p>
                       </div>
                     </div>
                     
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="bg-blue-50 p-3 rounded-lg">
+                      <div className="bg-blue-50 p-3 rounded-md">
                         <div className="text-sm text-gray-600">Blood Pressure</div>
                         <div className="font-semibold text-blue-700">120/80</div>
                       </div>
-                      <div className="bg-green-50 p-3 rounded-lg">
+                      <div className="bg-green-50 p-3 rounded-md">
                         <div className="text-sm text-gray-600">Heart Rate</div>
                         <div className="font-semibold text-green-700">72 BPM</div>
                       </div>
@@ -100,42 +100,42 @@ const Homepage = () => {
   <section className="py-16 sm:py-20 bg-gray-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">The Critical Challenge</h2>
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">The Critical Challenge</h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
               Nigeria's healthcare system faces urgent challenges that cost lives and resources daily
             </p>
           </div>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-white p-6 rounded-md border border-gray-200">
+              <div className="w-12 h-12 bg-red-100 rounded-md flex items-center justify-center mb-4">
                 <Clock className="h-6 w-6 text-red-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Long Waiting Times</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Long Waiting Times</h3>
               <p className="text-gray-600">Emergency patients wait as vital signs and histories are re-captured at each facility</p>
             </div>
             
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-white p-6 rounded-md border border-gray-200">
+              <div className="w-12 h-12 bg-orange-100 rounded-md flex items-center justify-center mb-4">
                 <MapPin className="h-6 w-6 text-orange-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Fragmented Records</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Fragmented Records</h3>
               <p className="text-gray-600">Patients move across facilities with no unified health background accessible</p>
             </div>
             
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="w-12 h-12 bg-red-100 rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-white p-6 rounded-md border border-gray-200">
+              <div className="w-12 h-12 bg-red-100 rounded-md flex items-center justify-center mb-4">
                 <Heart className="h-6 w-6 text-red-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Emergency Deaths</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Emergency Deaths</h3>
               <p className="text-gray-600">Lack of instant data leads to avoidable loss of life in maternal care and trauma</p>
             </div>
             
-            <div className="bg-white p-6 rounded-2xl shadow-lg hover:shadow-xl transition-shadow duration-300">
-              <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
+            <div className="bg-white p-6 rounded-md border border-gray-200">
+              <div className="w-12 h-12 bg-yellow-100 rounded-md flex items-center justify-center mb-4">
                 <BarChart3 className="h-6 w-6 text-yellow-600" />
               </div>
-              <h3 className="text-lg font-semibold text-gray-900 mb-2">Weak Reporting</h3>
+              <h3 className="text-lg font-semibold text-gray-800 mb-2">Weak Reporting</h3>
               <p className="text-gray-600">PHC system struggles with timely, accurate data for planning and donor reporting</p>
             </div>
           </div>
@@ -146,7 +146,7 @@ const Homepage = () => {
   <section id="features" className="py-16 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-4xl font-bold text-gray-800 mb-4">
               <span className="text-blue-600">Our Solution:</span> PHC E-Health Platform
             </h2>
             <p className="text-xl text-gray-600 max-w-3xl mx-auto">
@@ -156,25 +156,25 @@ const Homepage = () => {
           
           <div className="grid lg:grid-cols-3 gap-8">
             <div className="space-y-8">
-              <div className="bg-gradient-to-br from-blue-50 to-blue-100 p-6 rounded-2xl">
-                <div className="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+              <div className="bg-blue-50 p-6 rounded-md">
+                <div className="w-12 h-12 bg-blue-600 rounded-md flex items-center justify-center mb-4">
                   <Users className="h-6 w-6 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Unified Vital Records</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Unified Vital Records</h3>
                 <p className="text-gray-600">Every patient gets a portable digital health profile accessible in any participating PHC or hospital</p>
               </div>
               
-              <div className="bg-gradient-to-br from-green-50 to-green-100 p-6 rounded-2xl">
-                <div className="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
+              <div className="bg-green-50 p-6 rounded-md">
+                <div className="w-12 h-12 bg-green-600 rounded-md flex items-center justify-center mb-4">
                   <Heart className="h-6 w-6 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Emergency-Ready</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Emergency-Ready</h3>
                 <p className="text-gray-600">Doctors can view patient vitals, allergies, chronic conditions, and medication history instantly</p>
               </div>
             </div>
             
             <div className="lg:col-span-2 space-y-8">
-              <div className="bg-gradient-to-r from-blue-600 to-green-600 p-8 rounded-2xl text-white">
+              <div className="bg-blue-600 p-8 rounded-md text-white">
                 <h3 className="text-2xl font-bold mb-4">Technical Excellence</h3>
                 <div className="grid md:grid-cols-2 gap-6">
                   <div>
@@ -188,11 +188,11 @@ const Homepage = () => {
                 </div>
               </div>
               
-              <div className="bg-gradient-to-br from-purple-50 to-purple-100 p-6 rounded-2xl">
-                <div className="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
+              <div className="bg-purple-50 p-6 rounded-md">
+                <div className="w-12 h-12 bg-purple-600 rounded-md flex items-center justify-center mb-4">
                   <BarChart3 className="h-6 w-6 text-white" />
                 </div>
-                <h3 className="text-lg font-semibold text-gray-900 mb-2">Analytics Dashboard</h3>
+                <h3 className="text-lg font-semibold text-gray-800 mb-2">Analytics Dashboard</h3>
                 <p className="text-gray-600">Generates real-time insights for PHC managers, states, and federal health authorities</p>
               </div>
             </div>
@@ -201,17 +201,17 @@ const Homepage = () => {
       </section>
 
       {/* CTA Section */}
-  <section className="py-16 sm:py-20 bg-gradient-to-r from-blue-600 to-green-600">
+  <section className="py-16 sm:py-20 bg-blue-600">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl font-bold text-white mb-4">Ready to Transform Healthcare?</h2>
           <p className="text-xl text-blue-100 mb-8">
             Join the digital health revolution that's saving lives across Nigeria
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-    <button type="button" className="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-50 transition-all duration-300 transform hover:-translate-y-1 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/60">
+    <button type="button" className="bg-white text-blue-600 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors focus:outline-none">
               Request Demo
             </button>
-    <button type="button" className="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-white/60">
+    <button type="button" className="border border-white text-white px-6 py-3 rounded-md font-semibold hover:bg-white hover:text-blue-600 transition-colors focus:outline-none">
               Download White Paper
             </button>
           </div>

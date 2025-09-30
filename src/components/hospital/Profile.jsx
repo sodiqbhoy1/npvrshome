@@ -1,5 +1,5 @@
-import { Building2, Mail, MapPin, Phone, User } from 'lucide-react';
-import React, { useEffect, useState } from 'react'
+import { Building2, Mail, MapPin, Phone, Calendar } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 import { getHospitalProfile } from '../../services/hospitalService';
 
 const Profile = () => {
@@ -8,48 +8,66 @@ const Profile = () => {
 
   useEffect(() => {
     const fetchProfile = async () => {
-      const data = await getHospitalProfile();
-      setHospital(data);
-      console.log(data);
+      try {
+        const data = await getHospitalProfile();
+        setHospital(data || {});
+      } catch (error) {
+        console.error("Failed to fetch hospital profile:", error);
+        setHospital({});
+      }
     };
     fetchProfile();
   }, []);
 
   return (
-    <div className="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8">
-      <div className="flex items-center gap-4 mb-6">
-        <div className="bg-gradient-to-r from-blue-600 to-green-600 p-4 rounded-full">
+    <div className="bg-white rounded-[0.3rem] border border-gray-200 p-6 sm:p-8 w-full">
+      <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-8">
+        <div className="bg-emerald-600 p-4 rounded-[0.3rem] flex-shrink-0">
           <Building2 className="h-8 w-8 text-white" />
         </div>
         <div>
-          <h2 className="text-2xl font-bold text-blue-700">{hospital.name}</h2>
-          <p className="text-gray-500">Hospital ID: {hospital.hospitalId} </p>
+          <h2 className="text-2xl font-bold text-gray-800">{hospital.name || 'Hospital Name'}</h2>
+          <p className="text-gray-500">Hospital ID: {hospital.hospitalId || 'N/A'}</p>
         </div>
       </div>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-        <div className="flex items-center gap-3">
-          <Mail className="h-5 w-5 text-blue-500" />
-          <span className="text-gray-700">{hospital.email}</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <Phone className="h-5 w-5 text-green-500" />
-          <span className="text-gray-700">{hospital.phone}</span>
-        </div>
-        <div className="flex items-center gap-3">
-          <MapPin className="h-5 w-5 text-blue-500" />
-          <span className="text-gray-700">{hospital.address}</span>
+      
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-6">
+        <div className="flex items-start gap-3">
+          <Mail className="h-5 w-5 text-emerald-600 mt-1 flex-shrink-0" />
+          <div>
+            <h3 className="text-sm font-medium text-gray-500">Email</h3>
+            <p className="text-gray-800">{hospital.email || '—'}</p>
+          </div>
         </div>
         
-      </div>
-      <div className="flex flex-wrap gap-6 mt-4">
-        
-        <div className="bg-green-50 rounded-lg px-6 py-4 text-center">
-          <div className="text-2xl font-bold text-green-700">  { new Date( hospital.createdAt).toDateString()}</div>
-          <div className="text-xs text-gray-500">Registered On</div>
+        <div className="flex items-start gap-3">
+          <Phone className="h-5 w-5 text-emerald-600 mt-1 flex-shrink-0" />
+          <div>
+            <h3 className="text-sm font-medium text-gray-500">Phone</h3>
+            <p className="text-gray-800">{hospital.phone || '—'}</p>
+          </div>
+        </div>
+
+        <div className="flex items-start gap-3 md:col-span-2">
+          <MapPin className="h-5 w-5 text-emerald-600 mt-1 flex-shrink-0" />
+          <div>
+            <h3 className="text-sm font-medium text-gray-500">Address</h3>
+            <p className="text-gray-800">{hospital.address || '—'}</p>
+          </div>
+        </div>
+
+        <div className="flex items-start gap-3">
+          <Calendar className="h-5 w-5 text-emerald-600 mt-1 flex-shrink-0" />
+          <div>
+            <h3 className="text-sm font-medium text-gray-500">Registered On</h3>
+            <p className="text-gray-800">
+              {hospital.createdAt ? new Date(hospital.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '—'}
+            </p>
+          </div>
         </div>
       </div>
     </div>
   );
 }
 
-export default Profile
+export default Profile;

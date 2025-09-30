@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { getAllPatients } from '../../services/hospitalService';
+import { Search } from 'lucide-react';
 
 const Patients = () => {
   // Loaded patients from API
@@ -58,8 +59,8 @@ const Patients = () => {
     const s = normalize(selected);
     // Patient detail view
     return (
-      <div className="w-full bg-white rounded-2xl shadow-xl p-6 sm:p-8 lg:p-10">
-        <h2 className="text-xl font-bold text-blue-700 mb-6">Patient Profile</h2>
+      <div className="w-full bg-white rounded-[0.3rem] border border-gray-200 p-6 sm:p-8">
+        <h2 className="text-xl font-bold text-gray-800 mb-6">Patient Profile</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
           <div><span className="font-semibold text-gray-700">Card No:</span> {s.card}</div>
           <div><span className="font-semibold text-gray-700">Name:</span> {s.name}</div>
@@ -72,13 +73,13 @@ const Patients = () => {
         </div>
         <div className="flex gap-4">
           <button
-            className="bg-gradient-to-r from-blue-600 to-green-600 text-white px-6 py-2 rounded-lg font-semibold text-sm hover:shadow-lg"
+            className="bg-emerald-600 text-white px-6 py-2 rounded-[0.3rem] font-semibold text-sm hover:bg-emerald-700 transition-colors"
             onClick={() => window.print()}
           >
             Print Card
           </button>
           <button
-            className="bg-white border border-blue-200 text-blue-700 px-6 py-2 rounded-lg font-semibold text-sm hover:bg-blue-50"
+            className="bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-[0.3rem] font-semibold text-sm hover:bg-gray-100 transition-colors"
             onClick={() => setSelected(null)}
           >
             Back to List
@@ -89,59 +90,64 @@ const Patients = () => {
   }
 
   return (
-    <div className="bg-white rounded-2xl shadow-xl p-6 overflow-x-auto w-full">
-      <h2 className="text-xl font-bold text-blue-700 mb-6">Patients List</h2>
-      <div className="mb-4 flex justify-end">
-        <input
-          type="text"
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="w-full max-w-xs border border-blue-200 rounded-lg px-4 py-2 outline-none focus:ring-0 focus:border-blue-500"
-          placeholder="Search by name or card number..."
-        />
+    <div className="bg-white rounded-[0.3rem] border border-gray-200 p-6 w-full">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
+        <h2 className="text-xl font-bold text-gray-800">Patients List</h2>
+        <div className="relative w-full sm:w-auto sm:min-w-[300px]">
+          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors"
+            placeholder="Search by name or card..."
+          />
+        </div>
       </div>
-      <table className="min-w-full divide-y divide-blue-100">
-        <thead>
-          <tr className="bg-blue-50">
-            <th className="px-4 py-2 text-left text-xs font-semibold text-blue-700 uppercase">Card No</th>
-            <th className="px-4 py-2 text-left text-xs font-semibold text-blue-700 uppercase">Name</th>
-            <th className="px-4 py-2 text-left text-xs font-semibold text-blue-700 uppercase">Age</th>
-            <th className="px-4 py-2 text-left text-xs font-semibold text-blue-700 uppercase">Gender</th>
-            <th className="px-4 py-2 text-left text-xs font-semibold text-blue-700 uppercase">Phone</th>
-            <th className="px-4 py-2 text-left text-xs font-semibold text-blue-700 uppercase">Condition</th>
-            <th className="px-4 py-2 text-left text-xs font-semibold text-blue-700 uppercase">Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filtered.map((p, idx) => {
-            const s = normalize(p);
-            const key = p.id ?? p.patientId ?? s.card ?? idx;
-            return (
-              <tr key={key} className="hover:bg-blue-50">
-                <td className="px-4 py-2 font-medium text-gray-900">{s.card}</td>
-                <td className="px-4 py-2 font-medium text-gray-900">{s.name}</td>
-                <td className="px-4 py-2 text-gray-700">{s.age}</td>
-                <td className="px-4 py-2 text-gray-700">{s.gender}</td>
-                <td className="px-4 py-2 text-gray-700">{s.phone}</td>
-                <td className="px-4 py-2 text-gray-700">{s.condition}</td>
-                <td className="px-4 py-2">
-                  <button
-                    className="bg-gradient-to-r from-blue-600 to-green-600 text-white px-3 py-1 rounded-lg font-semibold text-xs hover:shadow-lg"
-                    onClick={() => setSelected(p)}
-                  >
-                    View
-                  </button>
-                </td>
-              </tr>
-            );
-          })}
-          {filtered.length === 0 && (
+      <div className="overflow-x-auto">
+        <table className="min-w-full">
+          <thead className="bg-gray-50">
             <tr>
-              <td colSpan="7" className="px-4 py-6 text-center text-gray-500">No patients found.</td>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Card No</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Name</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Age</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Gender</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Phone</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Condition</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Actions</th>
             </tr>
-          )}
-        </tbody>
-      </table>
+          </thead>
+          <tbody>
+            {filtered.map((p, idx) => {
+              const s = normalize(p);
+              const key = p.id ?? p.patientId ?? s.card ?? idx;
+              return (
+                <tr key={key} className="border-t border-gray-200 hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium text-gray-800">{s.card}</td>
+                  <td className="px-4 py-3 font-medium text-gray-800">{s.name}</td>
+                  <td className="px-4 py-3 text-gray-600">{s.age}</td>
+                  <td className="px-4 py-3 text-gray-600">{s.gender}</td>
+                  <td className="px-4 py-3 text-gray-600">{s.phone}</td>
+                  <td className="px-4 py-3 text-gray-600">{s.condition}</td>
+                  <td className="px-4 py-3">
+                    <button
+                      className="bg-emerald-600 text-white px-3 py-1 rounded-[0.3rem] font-semibold text-xs hover:bg-emerald-700 transition-colors"
+                      onClick={() => setSelected(p)}
+                    >
+                      View
+                    </button>
+                  </td>
+                </tr>
+              );
+            })}
+            {filtered.length === 0 && (
+              <tr>
+                <td colSpan="7" className="px-4 py-6 text-center text-gray-500">No patients found.</td>
+              </tr>
+            )}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 };

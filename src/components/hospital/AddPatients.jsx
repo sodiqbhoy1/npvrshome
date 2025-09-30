@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import {
   User, Phone, HeartPulse, AlertCircle, Home, Calendar, Droplet, Stethoscope,
-  TransgenderIcon
+  Transgender
 } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -66,7 +66,7 @@ const AddPatients = () => {
       toast.success('Patient registered successfully');
       setSuccess(true);
       reset();
-      setTimeout(() => setSuccess(false), 2500);
+      setTimeout(() => setSuccess(false), 3000);
     } catch (err) {
       // Map backend validation errors to form fields if provided
       if (err?.fieldErrors && typeof err.fieldErrors === 'object') {
@@ -79,26 +79,26 @@ const AddPatients = () => {
   };
 
   return (
-    <div className="w-full bg-white rounded-2xl shadow-xl p-4 sm:p-8 lg:p-10">
-      <h2 className="text-xl font-bold text-blue-700 mb-6">Add New Patient</h2>
+    <div className="w-full bg-white rounded-[0.3rem] border border-gray-200 p-6 sm:p-8">
+      <h2 className="text-xl font-bold text-gray-800 mb-6">Add New Patient</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Name */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">Full Name</label>
           <div className="relative">
-            <User className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+            <User className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
             <input
               type="text"
               {...register('name')}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-500 transition-all duration-200 ${
-                errors.name ? 'border-red-300 bg-red-50' : 'border-gray-300 hover:border-gray-400'
+              className={`w-full pl-10 pr-4 py-2.5 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
+                errors.name ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
               }`}
               placeholder="Enter patient name"
             />
           </div>
           {errors.name && (
-            <p className="mt-1 text-sm text-red-600 flex items-center">
+            <p className="mt-1.5 text-sm text-red-600 flex items-center">
               <AlertCircle className="h-4 w-4 mr-1" />
               {errors.name.message}
             </p>
@@ -107,20 +107,20 @@ const AddPatients = () => {
 
         {/* Address */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Address</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">Address</label>
           <div className="relative">
-            <Home className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+            <Home className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             <textarea
               rows={2}
               {...register('address')}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-500 transition-all duration-200 resize-none ${
-                errors.address ? 'border-red-300 bg-red-50' : 'border-gray-300 hover:border-gray-400'
+              className={`w-full pl-10 pr-4 py-2.5 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors resize-none ${
+                errors.address ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
               }`}
               placeholder="Enter address"
             />
           </div>
           {errors.address && (
-            <p className="mt-1 text-sm text-red-600 flex items-center">
+            <p className="mt-1.5 text-sm text-red-600 flex items-center">
               <AlertCircle className="h-4 w-4 mr-1" />
               {errors.address.message}
             </p>
@@ -128,21 +128,21 @@ const AddPatients = () => {
         </div>
 
         {/* Date of Birth and Gender */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Date of Birth</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Date of Birth</label>
             <div className="relative">
-              <Calendar className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+              <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               <input
                 type="date"
                 {...register('dateOfBirth')}
-                className={`w-full pl-10 pr-4 py-3 border rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-500 transition-all duration-200 ${
-                  errors.dateOfBirth ? 'border-red-300 bg-red-50' : 'border-gray-300 hover:border-gray-400'
+                className={`w-full pl-10 pr-4 py-2.5 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
+                  errors.dateOfBirth ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
                 }`}
               />
             </div>
             {errors.dateOfBirth && (
-              <p className="mt-1 text-sm text-red-600 flex items-center">
+              <p className="mt-1.5 text-sm text-red-600 flex items-center">
                 <AlertCircle className="h-4 w-4 mr-1" />
                 {errors.dateOfBirth.message}
               </p>
@@ -150,23 +150,23 @@ const AddPatients = () => {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Gender</label>
             <div className="relative">
-              <TransgenderIcon className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+              <Transgender className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
               <select
                 {...register('gender')}
-                className={`w-full pl-10 pr-4 py-3 border rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-500 transition-all duration-200 ${
-                  errors.gender ? 'border-red-300 bg-red-50' : 'border-gray-300 hover:border-gray-400'
+                className={`w-full pl-10 pr-4 py-2.5 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors appearance-none ${
+                  errors.gender ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
                 }`}
               >
-                <option value="">Select</option>
+                <option value="">Select gender</option>
                 <option value="Male">Male</option>
                 <option value="Female">Female</option>
                 <option value="Other">Other</option>
               </select>
             </div>
             {errors.gender && (
-              <p className="mt-1 text-sm text-red-600 flex items-center">
+              <p className="mt-1.5 text-sm text-red-600 flex items-center">
                 <AlertCircle className="h-4 w-4 mr-1" />
                 {errors.gender.message}
               </p>
@@ -174,69 +174,70 @@ const AddPatients = () => {
           </div>
         </div>
 
-        {/* Phone */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Phone</label>
-          <div className="relative">
-            <Phone className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
-            <input
-              type="text"
-              {...register('phone')}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-500 transition-all duration-200 ${
-                errors.phone ? 'border-red-300 bg-red-50' : 'border-gray-300 hover:border-gray-400'
-              }`}
-              placeholder="Phone number"
-            />
+        {/* Phone and Blood Group */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Phone</label>
+            <div className="relative">
+              <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <input
+                type="text"
+                {...register('phone')}
+                className={`w-full pl-10 pr-4 py-2.5 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
+                  errors.phone ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
+                }`}
+                placeholder="Phone number"
+              />
+            </div>
+            {errors.phone && (
+              <p className="mt-1.5 text-sm text-red-600 flex items-center">
+                <AlertCircle className="h-4 w-4 mr-1" />
+                {errors.phone.message}
+              </p>
+            )}
           </div>
-          {errors.phone && (
-            <p className="mt-1 text-sm text-red-600 flex items-center">
-              <AlertCircle className="h-4 w-4 mr-1" />
-              {errors.phone.message}
-            </p>
-          )}
-        </div>
 
-        {/* Blood Group */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Blood Group</label>
-          <div className="relative">
-            <Droplet className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
-            <select
-              {...register('bloodGroup')}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-500 transition-all duration-200 ${
-                errors.bloodGroup ? 'border-red-300 bg-red-50' : 'border-gray-300 hover:border-gray-400'
-              }`}
-            >
-              <option value="">Select</option>
-              {BLOOD_GROUPS.map((bg) => (
-                <option key={bg} value={bg}>{bg}</option>
-              ))}
-            </select>
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1.5">Blood Group</label>
+            <div className="relative">
+              <Droplet className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
+              <select
+                {...register('bloodGroup')}
+                className={`w-full pl-10 pr-4 py-2.5 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors appearance-none ${
+                  errors.bloodGroup ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
+                }`}
+              >
+                <option value="">Select blood group</option>
+                {BLOOD_GROUPS.map((bg) => (
+                  <option key={bg} value={bg}>{bg}</option>
+                ))}
+              </select>
+            </div>
+            {errors.bloodGroup && (
+              <p className="mt-1.5 text-sm text-red-600 flex items-center">
+                <AlertCircle className="h-4 w-4 mr-1" />
+                {errors.bloodGroup.message}
+              </p>
+            )}
           </div>
-          {errors.bloodGroup && (
-            <p className="mt-1 text-sm text-red-600 flex items-center">
-              <AlertCircle className="h-4 w-4 mr-1" />
-              {errors.bloodGroup.message}
-            </p>
-          )}
         </div>
 
         {/* Underlying Sickness */}
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Underlying Sickness</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1.5">Underlying Sickness (Optional)</label>
           <div className="relative">
-            <Stethoscope className="absolute left-3 top-3.5 h-5 w-5 text-gray-400" />
+            <Stethoscope className="absolute left-3 top-3 h-5 w-5 text-gray-400" />
             <textarea
               rows={3}
               {...register('underlyingSickness')}
-              className={`w-full pl-10 pr-4 py-3 border rounded-lg outline-none focus:outline-none focus:ring-0 focus:border-blue-500 transition-all duration-200 ${
-                errors.underlyingSickness ? 'border-red-300 bg-red-50' : 'border-gray-300 hover:border-gray-400'
+              className={`w-full pl-10 pr-4 py-2.5 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors resize-none ${
+                errors.underlyingSickness ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
               }`}
-              placeholder="Enter condition(s), e.g., Hypertension, Asthma"
+              placeholder="e.g., Hypertension, Asthma"
             />
           </div>
           {errors.underlyingSickness && (
-            <p className="mt-1 text-sm text-red-600 flex items-center">
+            <p className="mt-1.5 text-sm text-red-600 flex items-center">
               <AlertCircle className="h-4 w-4 mr-1" />
               {errors.underlyingSickness.message}
             </p>
@@ -247,14 +248,14 @@ const AddPatients = () => {
         <button
           type="submit"
           disabled={isSubmitting}
-          className={`w-full py-3 px-4 rounded-lg font-semibold text-white transition-all duration-200 flex items-center justify-center gap-2 shadow-md hover:shadow-lg ${
+          className={`w-full py-3 px-4 rounded-[0.3rem] font-semibold text-white transition-colors flex items-center justify-center gap-2 ${
             isSubmitting
-              ? 'bg-gradient-to-r from-blue-400 to-green-400 cursor-not-allowed'
-              : 'bg-gradient-to-r from-blue-600 to-green-600 hover:from-blue-700 hover:to-green-700'
+              ? 'bg-gray-400 cursor-not-allowed'
+              : 'bg-emerald-600 hover:bg-emerald-700'
           }`}
         >
           <HeartPulse className="h-5 w-5" />
-          {isSubmitting ? 'Adding...' : 'Add Patient'}
+          {isSubmitting ? 'Adding Patient...' : 'Add Patient'}
         </button>
 
         {success && (

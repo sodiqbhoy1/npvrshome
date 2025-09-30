@@ -9,9 +9,12 @@ const HospitalDashboard = () => {
   const [activeTab, setActiveTab] = useState('profile');
 
   return (
-    <div className="min-h-screen bg-gray-50 flex">
+    <div className="min-h-screen bg-gray-50">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-      <main className="flex-1 p-8">
+      
+      {/* The main content area is pushed to the right to account for the fixed sidebar */}
+      <main className="ml-64 p-6 md:p-8">
+        {/* The content itself is rendered directly without an extra container */}
         {activeTab === 'profile' && <Profile />}
         {activeTab === 'patients' && <Patients />}
         {activeTab === 'visits' && <Visits />}
