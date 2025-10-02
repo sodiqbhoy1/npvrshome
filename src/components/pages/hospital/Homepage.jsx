@@ -29,15 +29,7 @@ const Homepage = () => {
                   Instant access to vital health records across all PHCs and hospitals. Reducing emergency response time, preventing avoidable deaths, and strengthening national health data systems.
                 </p>
               </div>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <button type="button" className="bg-blue-600 text-white px-6 py-3 rounded-md font-semibold hover:bg-blue-700 transition-colors flex items-center justify-center focus:outline-none">
-                  Launch NPVRS
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </button>
-                <button type="button" className="border border-gray-300 text-gray-700 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors focus:outline-none">
-                  View White Paper
-                </button>
-              </div>
+
               <div className="grid grid-cols-3 gap-4 sm:gap-6 pt-6">
                 <div className="text-center">
                   <div className="text-3xl font-bold text-blue-600">70%</div>
