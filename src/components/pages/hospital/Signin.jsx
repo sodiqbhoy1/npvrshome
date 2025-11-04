@@ -24,7 +24,6 @@ const Signin = () => {
   const onSubmit = async (values) => {
     try {
       const result = await loginHospital(values);
-      console.log(result);
       
       localStorage.setItem('hospitalToken', result.token);
       toast.success(result.message);
