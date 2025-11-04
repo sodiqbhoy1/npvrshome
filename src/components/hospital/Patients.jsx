@@ -27,23 +27,22 @@ const Patients = () => {
     loadPatients();
   }, []);
 
-  // Helper to safely read fields that might differ in API
+  // Helper to safely read fields that match your API response
   const normalize = (p) => {
-    const card =
-      p.card || p.cardNo || p.cardNumber || p.patientCard || p.patientId || p.id || '—';
-    const name = p.name || `${p.firstName || ''} ${p.lastName || ''}`.trim() || '—';
+    const card = p.patient_code ;
+    const name = p.full_name ;
     const gender = p.gender || '—';
-    const phone = p.phone || p.phoneNumber || '—';
-    const condition = p.underlyingSickness || p.condition || '—';
-    const address = p.address || '—';
-    const bloodGroup = p.bloodGroup || '—';
+    const phone = p.phone ;
+    const condition = p.underlying_sickness ;
+    const address = p.address ;
+    const bloodGroup = p.blood_group ;
     const age =
       typeof p.age === 'number'
         ? p.age
-        : p.dateOfBirth
+        : p.dob
         ? Math.max(
             0,
-            Math.floor((Date.now() - new Date(p.dateOfBirth).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
+            Math.floor((Date.now() - new Date(p.dob).getTime()) / (365.25 * 24 * 60 * 60 * 1000))
           )
         : '—';
     return { card, name, age, gender, phone, condition, address, bloodGroup };
@@ -62,13 +61,13 @@ const Patients = () => {
       <div className="w-full bg-white rounded-[0.3rem] border border-gray-200 p-6 sm:p-8">
         <h2 className="text-xl font-bold text-gray-800 mb-6">Patient Profile</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mb-6">
-          <div><span className="font-semibold text-gray-700">Card No:</span> {s.card}</div>
+          <div><span className="font-semibold text-gray-700">Patient Code:</span> {s.card}</div>
           <div><span className="font-semibold text-gray-700">Name:</span> {s.name}</div>
           <div><span className="font-semibold text-gray-700">Age:</span> {s.age}</div>
           <div><span className="font-semibold text-gray-700">Gender:</span> {s.gender}</div>
           <div><span className="font-semibold text-gray-700">Phone:</span> {s.phone}</div>
-          <div><span className="font-semibold text-gray-700">Condition:</span> {s.condition}</div>
           <div><span className="font-semibold text-gray-700">Blood Group:</span> {s.bloodGroup}</div>
+          <div className="sm:col-span-2"><span className="font-semibold text-gray-700">Underlying Condition:</span> {s.condition}</div>
           <div className="sm:col-span-2"><span className="font-semibold text-gray-700">Address:</span> {s.address}</div>
         </div>
         <div className="flex gap-4">
@@ -100,7 +99,7 @@ const Patients = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors"
-            placeholder="Search by name or card..."
+            placeholder="Search by name or patient code..."
           />
         </div>
       </div>
@@ -108,19 +107,19 @@ const Patients = () => {
         <table className="min-w-full">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Card No</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Patient Code</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Name</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Age</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Gender</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Phone</th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Condition</th>
+              <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Blood Group</th>
               <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 uppercase tracking-wider">Actions</th>
             </tr>
           </thead>
           <tbody>
             {filtered.map((p, idx) => {
               const s = normalize(p);
-              const key = p.id ?? p.patientId ?? s.card ?? idx;
+              const key = p.id ?? p.patientId ?? p.patient_uuid ?? idx;
               return (
                 <tr key={key} className="border-t border-gray-200 hover:bg-gray-50">
                   <td className="px-4 py-3 font-medium text-gray-800">{s.card}</td>
@@ -128,7 +127,7 @@ const Patients = () => {
                   <td className="px-4 py-3 text-gray-600">{s.age}</td>
                   <td className="px-4 py-3 text-gray-600">{s.gender}</td>
                   <td className="px-4 py-3 text-gray-600">{s.phone}</td>
-                  <td className="px-4 py-3 text-gray-600">{s.condition}</td>
+                  <td className="px-4 py-3 text-gray-600">{s.bloodGroup}</td>
                   <td className="px-4 py-3">
                     <button
                       className="bg-emerald-600 text-white px-3 py-1 rounded-[0.3rem] font-semibold text-xs hover:bg-emerald-700 transition-colors"

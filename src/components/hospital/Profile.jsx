@@ -10,7 +10,10 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const data = await getHospitalProfile();
-        setHospital(data || {});
+        console.log(data);
+        
+        // Extract the hospital object from the response
+        setHospital(data?.hospital || {});
       } catch (error) {
         console.error("Failed to fetch hospital profile:", error);
         setHospital({});
@@ -27,7 +30,7 @@ const Profile = () => {
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-800">{hospital.name || 'Hospital Name'}</h2>
-          <p className="text-gray-500">Hospital ID: {hospital.hospitalId || 'N/A'}</p>
+          <p className="text-gray-500">Hospital ID: {hospital.id || 'N/A'}</p>
         </div>
       </div>
       
@@ -61,7 +64,7 @@ const Profile = () => {
           <div>
             <h3 className="text-sm font-medium text-gray-500">Registered On</h3>
             <p className="text-gray-800">
-              {hospital.createdAt ? new Date(hospital.createdAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '—'}
+              {hospital.created_at ? new Date(hospital.created_at).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }) : '—'}
             </p>
           </div>
         </div>

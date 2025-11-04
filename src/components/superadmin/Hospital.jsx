@@ -23,7 +23,9 @@ const Hospital = () => {
     const fetchHospitals = async () => {
       try {
         const data = await getAllHospitals()
-        setHospitals(data || [])
+        // Extract hospitals array from response
+        const list = data?.hospitals || []
+        setHospitals(list)
       } catch (e) {
         toast.error(e?.message || 'Failed to load hospitals')
       }
@@ -37,14 +39,14 @@ const Hospital = () => {
     return hospitals.filter(h =>
       (h.name || '').toLowerCase().includes(q) ||
       (h.email || '').toLowerCase().includes(q) ||
-      String(h.hospitalId || '').toLowerCase().includes(q)
+      String(h.id || '').toLowerCase().includes(q)
     )
   }, [hospitals, query])
 
   const setStatus = (hospitalId, approvedValue) => {
     setHospitals(prev => prev.map(h => (
-      h.hospitalId === hospitalId
-        ? { ...h, approved: approvedValue, status: approvedValue === 1 ? 'approved' : 'not_approved' }
+      h.id === hospitalId
+        ? { ...h, approved: approvedValue }
         : h
     )))
   }
@@ -52,17 +54,17 @@ const Hospital = () => {
   // Call backend to approve, then sync UI
   const handleApprove = async (h) => {
     try {
-      setApprovingId(h.hospitalId)
+      setApprovingId(h.id)
       // Call your API; service includes Authorization header logic
-      const resp = await approveHospital(h.hospitalId)
+      const resp = await approveHospital(h.id)
       const updated = resp?.hospital ?? resp ?? {}
       // Backend returns approved: true; normalize to 1 for UI
       const approvedValue = updated?.approved === true || updated?.approved === 1 ? 1 : 0
-      setStatus(h.hospitalId, approvedValue)
+      setStatus(h.id, approvedValue)
       // Keep detail view in sync if open
       setSelected(prev =>
-        prev && prev.hospitalId === h.hospitalId
-          ? { ...prev, approved: approvedValue, status: approvedValue === 1 ? 'approved' : 'not_approved' }
+        prev && prev.id === h.id
+          ? { ...prev, approved: approvedValue }
           : prev
       )
       toast.success(`${updated?.name || h.name || 'Hospital'} approved`)
@@ -75,10 +77,10 @@ const Hospital = () => {
 
   // Local-only reject for now (no backend endpoint provided)
   const handleReject = (h) => {
-    setStatus(h.hospitalId, 0)
+    setStatus(h.id, 0)
     setSelected(prev =>
-      prev && prev.hospitalId === h.hospitalId
-        ? { ...prev, approved: 0, status: 'not_approved' }
+      prev && prev.id === h.id
+        ? { ...prev, approved: 0 }
         : prev
     )
     toast.error(`${h.name} set to not approved`)
@@ -97,51 +99,55 @@ const Hospital = () => {
     const cls = isApproved
       ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
       : 'bg-amber-50 text-amber-700 border-amber-200'
-    const label = isApproved ? 'Approved' : 'Not approved'
-    return <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium border ${cls}`}>{label}</span>
+    const label = isApproved ? 'Approved' : 'Pending'
+    return <span className={`inline-flex items-center px-2.5 py-1 rounded-[0.3rem] text-xs font-medium border ${cls}`}>{label}</span>
   }
 
   // Detail view
   if (selected) {
-    const isApproving = approvingId === selected.hospitalId
+    const isApproving = approvingId === selected.id
     return (
       <div className="space-y-4">
-        <button onClick={() => setSelected(null)} className="inline-flex items-center gap-2 text-indigo-700 hover:text-purple-700 font-medium">
+        <button onClick={() => setSelected(null)} className="inline-flex items-center gap-2 text-emerald-700 hover:text-emerald-800 font-medium">
           <ArrowLeft className="h-4 w-4" /> Back to hospitals
         </button>
 
-        <div className="bg-white rounded-2xl border border-indigo-100 shadow-sm p-6">
+        <div className="bg-white rounded-[0.3rem] border border-gray-200 p-6">
           <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="p-3 rounded-xl bg-indigo-50 text-indigo-700 border border-indigo-100">
+              <div className="p-3 rounded-[0.3rem] bg-emerald-50 text-emerald-700 border border-emerald-200">
                 <Building2 className="h-6 w-6" />
               </div>
               <div>
                 <h2 className="text-xl font-semibold text-gray-900">{selected.name}</h2>
-                <p className="text-sm text-gray-600">ID: {selected.hospitalId}</p>
+   
               </div>
             </div>
-            <StatusBadge status={selected.approved ?? selected.status} />
+            <StatusBadge status={selected.approved} />
           </div>
 
           <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="flex items-center gap-3 text-gray-700"><Mail className="h-5 w-5 text-gray-500" /><span>{selected.email}</span></div>
             <div className="flex items-center gap-3 text-gray-700"><Phone className="h-5 w-5 text-gray-500" /><span>{selected.phone}</span></div>
-            <div className="flex items-center gap-3 text-gray-700"><MapPin className="h-5 w-5 text-gray-500" /><span>{selected.address}</span></div>
-            <div className="flex items-center gap-3 text-gray-700"><Calendar className="h-5 w-5 text-gray-500" /><span>Applied: {formatDate(selected.createdAt)}</span></div>
+            <div className="flex items-center gap-3 text-gray-700 sm:col-span-2"><MapPin className="h-5 w-5 text-gray-500" /><span>{selected.address}</span></div>
+            <div className="flex items-center gap-3 text-gray-700"><Calendar className="h-5 w-5 text-gray-500" /><span>Applied: {formatDate(selected.created_at)}</span></div>
+            {selected.approved_at && (
+              <div className="flex items-center gap-3 text-gray-700"><CheckCircle2 className="h-5 w-5 text-gray-500" /><span>Approved: {formatDate(selected.approved_at)}</span></div>
+            )}
           </div>
 
           <div className="mt-8 flex flex-wrap gap-3">
             <button
               onClick={() => handleApprove(selected)}
-              disabled={isApproving}
-              className={`inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white shadow ${isApproving ? 'bg-emerald-400 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-700'}`}
+              disabled={isApproving || selected.approved === 1}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-[0.3rem] text-white ${isApproving || selected.approved === 1 ? 'bg-gray-400 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-700'}`}
             >
-              <CheckCircle2 className="h-5 w-5" /> {isApproving ? 'Approving…' : 'Approve'}
+              <CheckCircle2 className="h-5 w-5" /> {isApproving ? 'Approving…' : selected.approved === 1 ? 'Already Approved' : 'Approve'}
             </button>
             <button
               onClick={() => handleReject(selected)}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg text-white bg-rose-600 hover:bg-rose-700 shadow"
+              disabled={selected.approved === 0}
+              className={`inline-flex items-center gap-2 px-4 py-2 rounded-[0.3rem] text-white ${selected.approved === 0 ? 'bg-gray-400 cursor-not-allowed' : 'bg-rose-600 hover:bg-rose-700'}`}
             >
               <XCircle className="h-5 w-5" /> Reject
             </button>
@@ -162,14 +168,14 @@ const Hospital = () => {
             value={query}
             onChange={e=>setQuery(e.target.value)}
             placeholder="Search by name, email or ID"
-            className="w-full pl-10 pr-3 py-2.5 rounded-lg border border-indigo-200 focus:outline-none focus:ring-2 focus:ring-indigo-500/50"
+            className="w-full pl-10 pr-3 py-2.5 rounded-[0.3rem] border border-gray-300 focus:outline-none focus:border-emerald-500"
           />
         </div>
       </div>
 
-      <div className="overflow-x-auto bg-white rounded-2xl border border-indigo-100 shadow-sm">
+      <div className="overflow-x-auto bg-white rounded-[0.3rem] border border-gray-200">
         <table className="min-w-full text-sm">
-          <thead className="bg-indigo-50/60">
+          <thead className="bg-gray-50">
             <tr className="text-left text-gray-700">
               <th className="px-4 py-3 font-medium">Hospital</th>
               <th className="px-4 py-3 font-medium">Email</th>
@@ -181,22 +187,22 @@ const Hospital = () => {
           </thead>
           <tbody>
             {filtered.map(h => (
-              <tr key={h.hospitalId} className="border-t border-indigo-100 hover:bg-indigo-50/40">
+              <tr key={h.id} className="border-t border-gray-200 hover:bg-gray-50">
                 <td className="px-4 py-3">
                   <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-100"><Building2 className="h-5 w-5" /></div>
+                    <div className="p-2 rounded-[0.3rem] bg-emerald-50 text-emerald-700 border border-emerald-200"><Building2 className="h-5 w-5" /></div>
                     <div>
                       <div className="font-medium text-gray-900">{h.name}</div>
-                      <div className="text-xs text-gray-500">ID: {h.hospitalId}</div>
+
                     </div>
                   </div>
                 </td>
                 <td className="px-4 py-3 text-gray-700">{h.email}</td>
                 <td className="px-4 py-3 text-gray-700">{h.phone}</td>
-                <td className="px-4 py-3 text-gray-700">{formatDate(h.createdAt)}</td>
-                <td className="px-4 py-3"><StatusBadge status={h.approved ?? h.status} /></td>
+                <td className="px-4 py-3 text-gray-700">{formatDate(h.created_at)}</td>
+                <td className="px-4 py-3"><StatusBadge status={h.approved} /></td>
                 <td className="px-4 py-3">
-                  <button onClick={()=>setSelected(h)} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-md text-indigo-700 hover:text-white hover:bg-indigo-600 border border-indigo-200">
+                  <button onClick={()=>setSelected(h)} className="inline-flex items-center gap-2 px-3 py-1.5 rounded-[0.3rem] text-emerald-700 hover:text-white hover:bg-emerald-600 border border-emerald-200 transition-colors">
                     <Eye className="h-4 w-4" /> View
                   </button>
                 </td>

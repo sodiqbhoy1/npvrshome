@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How to Use - Hospital Management System</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            border-radius: 10px 10px 0 0;
+        }
+        .content { padding: 40px; }
+        .step {
+            background: #f8f9fa;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            border-left: 5px solid #667eea;
+        }
+        .step h2 {
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        code {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 5px;
+            display: block;
+            margin: 10px 0;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+        .url {
+            background: #e3f2fd;
+            padding: 10px;
+            border-radius: 5px;
+            border-left: 4px solid #2196f3;
+            margin: 10px 0;
+            font-family: monospace;
+        }
+        .method {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 3px;
+            font-weight: bold;
+            font-size: 0.85em;
+            margin-right: 10px;
+        }
+        .post { background: #28a745; color: white; }
+        .get { background: #007bff; color: white; }
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .success {
+            background: #d4edda;
+            border-left: 4px solid #28a745;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .warning {
+            background: #f8d7da;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+            border-radius: 5px;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #667eea;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            margin: 5px;
+        }
+        .btn:hover { background: #764ba2; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+        th {
+            background: #667eea;
+            color: white;
+        }
+        tr:hover { background: #f5f5f5; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>🚀 How to Use the Hospital Management System</h1>
+            <p>Step-by-step guide with exact URLs and examples</p>
+        </header>
+        
+        <div class="content">
+            
+            <!-- Step 1 -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">1</span>
+                    Check System Status
+                </h2>
+                <p>First, verify your installation is working:</p>
+                <div class="url">
+                    <strong>Open in browser:</strong> 
+                    <a href="http://localhost/npvrs/status.php" target="_blank">
+                        http://localhost/npvrs/status.php
+                    </a>
+                </div>
+                <div class="success">
+                    ✅ All checks should be green. If not, follow the error messages to fix issues.
+                </div>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">2</span>
+                    Import Database Schema
+                </h2>
+                <p><strong>Method 1: Using phpMyAdmin (Easiest)</strong></p>
+                <ol style="margin-left: 20px; margin-top: 10px;">
+                    <li>Open: <a href="http://localhost/phpmyadmin" target="_blank">http://localhost/phpmyadmin</a></li>
+                    <li>Click "Import" tab</li>
+                    <li>Click "Choose File"</li>
+                    <li>Select: <code style="display: inline; padding: 2px 6px;">c:\xampp\htdocs\npvrs\database\schema.sql</code></li>
+                    <li>Click "Go"</li>
+                </ol>
+                
+                <p style="margin-top: 15px;"><strong>Method 2: Using MySQL Command Line</strong></p>
+                <code>cd c:\xampp\mysql\bin
+mysql -u root -p
+SOURCE c:/xampp/htdocs/npvrs/database/schema.sql;</code>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">3</span>
+                    Install Postman or Thunder Client
+                </h2>
+                <p>You need a REST API client to test the endpoints:</p>
+                <div style="margin-top: 15px;">
+                    <a href="https://www.postman.com/downloads/" class="btn" target="_blank">Download Postman</a>
+                    <span style="margin: 0 10px;">OR</span>
+                    <span>Install "Thunder Client" extension in VS Code</span>
+                </div>
+                <div class="note" style="margin-top: 15px;">
+                    <strong>💡 Tip:</strong> Import the included collection file: 
+                    <code style="display: inline; padding: 2px 6px;">postman_collection.json</code>
+                </div>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">4</span>
+                    Test Your First API Call
+                </h2>
+                <p><strong>Register an Administrator</strong></p>
+                
+                <p><span class="method post">POST</span> Request:</p>
+                <div class="url">http://localhost/npvrs/controllers/AdminController.php?action=register</div>
+                
+                <p style="margin-top: 10px;"><strong>Headers:</strong></p>
+                <code>Content-Type: application/json</code>
+                
+                <p style="margin-top: 10px;"><strong>Body (raw JSON):</strong></p>
+                <code>{
+  "full_name": "John Administrator",
+  "email": "admin@hospital.com",
+  "password": "Admin@123456"
+}</code>
+                
+                <p style="margin-top: 10px;"><strong>Expected Response (201 Created):</strong></p>
+                <code>{
+  "success": true,
+  "message": "Administrator registered successfully",
+  "data": {
+    "id": 1,
+    "full_name": "John Administrator",
+    "email": "admin@hospital.com",
+    "created_at": "2025-10-29 12:00:00"
+  }
+}</code>
+            </div>
+
+            <!-- Step 5 -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">5</span>
+                    Complete Workflow Example
+                </h2>
+                
+                <h3 style="color: #333; margin-top: 20px;">A. Register Hospital</h3>
+                <p><span class="method post">POST</span> 
+                <code style="display: inline; padding: 2px 6px;">http://localhost/npvrs/controllers/HospitalController.php?action=register</code></p>
+                <code>{
+  "hospital_name": "City General Hospital",
+  "hospital_address": "123 Main Street, Springfield",
+  "email": "contact@cityhospital.com",
+  "phone_number": "1234567890",
+  "password": "Hospital@123456"
+}</code>
+                <div class="note">
+                    Status will be <strong>"pending"</strong> - Hospital cannot login yet!
+                </div>
+
+                <h3 style="color: #333; margin-top: 20px;">B. View Pending Hospitals (as Admin)</h3>
+                <p><span class="method get">GET</span> 
+                <code style="display: inline; padding: 2px 6px;">http://localhost/npvrs/controllers/AdminController.php?action=pending-hospitals</code></p>
+
+                <h3 style="color: #333; margin-top: 20px;">C. Approve Hospital (as Admin)</h3>
+                <p><span class="method post">POST</span> 
+                <code style="display: inline; padding: 2px 6px;">http://localhost/npvrs/controllers/AdminController.php?action=approve-hospital</code></p>
+                <code>{
+  "hospital_id": 1,
+  "admin_id": 1
+}</code>
+                <div class="success">
+                    ✅ Hospital status changes to "approved" and receives email notification!
+                </div>
+
+                <h3 style="color: #333; margin-top: 20px;">D. Hospital Login (Now It Works!)</h3>
+                <p><span class="method post">POST</span> 
+                <code style="display: inline; padding: 2px 6px;">http://localhost/npvrs/controllers/HospitalController.php?action=login</code></p>
+                <code>{
+  "email": "contact@cityhospital.com",
+  "password": "Hospital@123456"
+}</code>
+
+                <h3 style="color: #333; margin-top: 20px;">E. Register Patient (as Hospital)</h3>
+                <p><span class="method post">POST</span> 
+                <code style="display: inline; padding: 2px 6px;">http://localhost/npvrs/controllers/HospitalController.php?action=register-patient</code></p>
+                <code>{
+  "hospital_id": 1,
+  "full_name": "Jane Doe",
+  "date_of_birth": "1990-05-15",
+  "gender": "female",
+  "phone_number": "9876543210",
+  "address": "456 Oak Avenue"
+}</code>
+                <div class="success">
+                    ✅ Patient gets unique ID like: <strong>PID-20251029-00123</strong>
+                </div>
+
+                <h3 style="color: #333; margin-top: 20px;">F. Add Medical Record (as Hospital)</h3>
+                <p><span class="method post">POST</span> 
+                <code style="display: inline; padding: 2px 6px;">http://localhost/npvrs/controllers/HospitalController.php?action=add-medical-record</code></p>
+                <code>{
+  "hospital_id": 1,
+  "patient_id": 1,
+  "diagnosis": "Common cold with mild fever",
+  "prescription": "Rest and fluids for 3 days",
+  "symptoms": "Cough, runny nose"
+}</code>
+            </div>
+
+            <!-- Step 6 -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">6</span>
+                    All Available Routes
+                </h2>
+                
+                <h3 style="color: #333; margin-bottom: 15px;">Admin Routes</h3>
+                <table>
+                    <tr>
+                        <th>Method</th>
+                        <th>Action</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><span class="method post">POST</span></td>
+                        <td>register</td>
+                        <td>Register new admin</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method post">POST</span></td>
+                        <td>login</td>
+                        <td>Admin login</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method get">GET</span></td>
+                        <td>pending-hospitals</td>
+                        <td>List pending hospitals</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method post">POST</span></td>
+                        <td>approve-hospital</td>
+                        <td>Approve hospital</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method post">POST</span></td>
+                        <td>reject-hospital</td>
+                        <td>Reject hospital</td>
+                    </tr>
+                </table>
+
+                <h3 style="color: #333; margin: 25px 0 15px 0;">Hospital Routes</h3>
+                <table>
+                    <tr>
+                        <th>Method</th>
+                        <th>Action</th>
+                        <th>Description</th>
+                    </tr>
+                    <tr>
+                        <td><span class="method post">POST</span></td>
+                        <td>register</td>
+                        <td>Register hospital (pending)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method post">POST</span></td>
+                        <td>login</td>
+                        <td>Hospital login (if approved)</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method post">POST</span></td>
+                        <td>register-patient</td>
+                        <td>Register new patient</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method get">GET</span></td>
+                        <td>get-patients</td>
+                        <td>Get hospital's patients</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method post">POST</span></td>
+                        <td>add-medical-record</td>
+                        <td>Add diagnosis/prescription</td>
+                    </tr>
+                    <tr>
+                        <td><span class="method get">GET</span></td>
+                        <td>get-medical-history</td>
+                        <td>Get patient medical history</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Step 7 -->
+            <div class="step">
+                <h2>
+                    <span class="step-number">7</span>
+                    Check Logs and Emails
+                </h2>
+                <p>All email notifications are logged to:</p>
+                <div class="url">c:\xampp\htdocs\npvrs\logs\emails.log</div>
+                
+                <p style="margin-top: 15px;">Database errors are logged to:</p>
+                <div class="url">c:\xampp\htdocs\npvrs\logs\database_errors.log</div>
+
+                <div class="note" style="margin-top: 15px;">
+                    <strong>💡 Tip:</strong> Open these files in a text editor to see email content and debug issues.
+                </div>
+            </div>
+
+            <!-- Quick Links -->
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 8px; margin-top: 30px;">
+                <h2 style="color: #667eea; margin-bottom: 15px;">📚 Documentation Files</h2>
+                <div>
+                    <a href="index.html" class="btn">📖 Main Documentation</a>
+                    <a href="ROUTES_GUIDE.md" class="btn">🚀 Routes Guide</a>
+                    <a href="SCHEMA_GUIDE.md" class="btn">🗄️ Database Schema</a>
+                    <a href="QUICK_REFERENCE.md" class="btn">⚡ Quick Reference</a>
+                    <a href="SETUP.md" class="btn">⚙️ Setup Guide</a>
+                    <a href="status.php" class="btn" style="background: #28a745;">🔍 System Status</a>
+                </div>
+            </div>
+
+            <!-- Important Notes -->
+            <div class="warning" style="margin-top: 30px;">
+                <h3 style="margin-bottom: 10px;">⚠️ Important Notes:</h3>
+                <ul style="margin-left: 20px; line-height: 1.8;">
+                    <li>Hospitals <strong>CANNOT login</strong> until approved by admin</li>
+                    <li>Hospitals can <strong>ONLY see their own patients</strong></li>
+                    <li>Patient IDs are <strong>unique system-wide</strong></li>
+                    <li>All passwords must be <strong>strong</strong> (8+ chars, uppercase, lowercase, number, special char)</li>
+                    <li>Email notifications are logged to <code style="display: inline; padding: 2px 6px;">logs/emails.log</code></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

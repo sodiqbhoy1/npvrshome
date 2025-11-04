@@ -1,0 +1,254 @@
+{
+  "info": {
+    "name": "Hospital Management System API",
+    "description": "Complete API collection for testing the Hospital Management System",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Admin",
+      "item": [
+        {
+          "name": "Register Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"full_name\": \"John Administrator\",\n  \"email\": \"admin@hospital.com\",\n  \"password\": \"Admin@123456\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost/npvrs/controllers/AdminController.php?action=register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["npvrs", "controllers", "AdminController.php"],
+              "query": [{"key": "action", "value": "register"}]
+            }
+          }
+        },
+        {
+          "name": "Login Admin",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@hospital.com\",\n  \"password\": \"Admin@123456\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost/npvrs/controllers/AdminController.php?action=login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["npvrs", "controllers", "AdminController.php"],
+              "query": [{"key": "action", "value": "login"}]
+            }
+          }
+        },
+        {
+          "name": "Get Pending Hospitals",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/npvrs/controllers/AdminController.php?action=pending-hospitals",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["npvrs", "controllers", "AdminController.php"],
+              "query": [{"key": "action", "value": "pending-hospitals"}]
+            }
+          }
+        },
+        {
+          "name": "Approve Hospital",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hospital_id\": 1,\n  \"admin_id\": 1\n}"
+            },
+            "url": {
+              "raw": "http://localhost/npvrs/controllers/AdminController.php?action=approve-hospital",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["npvrs", "controllers", "AdminController.php"],
+              "query": [{"key": "action", "value": "approve-hospital"}]
+            }
+          }
+        },
+        {
+          "name": "Reject Hospital",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hospital_id\": 1,\n  \"admin_id\": 1,\n  \"reason\": \"Incomplete documentation provided\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost/npvrs/controllers/AdminController.php?action=reject-hospital",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["npvrs", "controllers", "AdminController.php"],
+              "query": [{"key": "action", "value": "reject-hospital"}]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Hospital",
+      "item": [
+        {
+          "name": "Register Hospital",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hospital_name\": \"City General Hospital\",\n  \"hospital_address\": \"123 Main Street, Springfield, IL 62701\",\n  \"email\": \"contact@cityhospital.com\",\n  \"phone_number\": \"1234567890\",\n  \"password\": \"Hospital@123456\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost/npvrs/controllers/HospitalController.php?action=register",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["npvrs", "controllers", "HospitalController.php"],
+              "query": [{"key": "action", "value": "register"}]
+            }
+          }
+        },
+        {
+          "name": "Login Hospital",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"contact@cityhospital.com\",\n  \"password\": \"Hospital@123456\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost/npvrs/controllers/HospitalController.php?action=login",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["npvrs", "controllers", "HospitalController.php"],
+              "query": [{"key": "action", "value": "login"}]
+            }
+          }
+        },
+        {
+          "name": "Register Patient",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hospital_id\": 1,\n  \"full_name\": \"Jane Doe\",\n  \"date_of_birth\": \"1990-05-15\",\n  \"gender\": \"female\",\n  \"blood_group\": \"O+\",\n  \"email\": \"jane.doe@email.com\",\n  \"phone_number\": \"9876543210\",\n  \"address\": \"456 Oak Avenue, Springfield, IL 62701\",\n  \"emergency_contact_name\": \"John Doe\",\n  \"emergency_contact_phone\": \"5551234567\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost/npvrs/controllers/HospitalController.php?action=register-patient",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["npvrs", "controllers", "HospitalController.php"],
+              "query": [{"key": "action", "value": "register-patient"}]
+            }
+          }
+        },
+        {
+          "name": "Get Patients",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/npvrs/controllers/HospitalController.php?action=get-patients&hospital_id=1&page=1&limit=20",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["npvrs", "controllers", "HospitalController.php"],
+              "query": [
+                {"key": "action", "value": "get-patients"},
+                {"key": "hospital_id", "value": "1"},
+                {"key": "page", "value": "1"},
+                {"key": "limit", "value": "20"}
+              ]
+            }
+          }
+        },
+        {
+          "name": "Add Medical Record",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"hospital_id\": 1,\n  \"patient_id\": 1,\n  \"diagnosis\": \"Acute bronchitis with persistent cough and mild fever\",\n  \"prescription\": \"Amoxicillin 500mg, 3 times daily for 7 days. Rest and increase fluid intake.\",\n  \"symptoms\": \"Persistent cough, mild fever (100.5°F), chest congestion, fatigue\",\n  \"vital_signs\": {\n    \"temperature\": \"100.5°F\",\n    \"blood_pressure\": \"120/80 mmHg\",\n    \"heart_rate\": \"78 bpm\",\n    \"respiratory_rate\": \"18 breaths/min\",\n    \"oxygen_saturation\": \"97%\"\n  },\n  \"notes\": \"Follow up in 1 week if symptoms persist. Patient advised to avoid cold environments.\",\n  \"created_by\": \"Dr. Sarah Johnson, MD\"\n}"
+            },
+            "url": {
+              "raw": "http://localhost/npvrs/controllers/HospitalController.php?action=add-medical-record",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["npvrs", "controllers", "HospitalController.php"],
+              "query": [{"key": "action", "value": "add-medical-record"}]
+            }
+          }
+        },
+        {
+          "name": "Get Patient Medical History",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost/npvrs/controllers/HospitalController.php?action=get-medical-history&hospital_id=1&patient_id=1",
+              "protocol": "http",
+              "host": ["localhost"],
+              "path": ["npvrs", "controllers", "HospitalController.php"],
+              "query": [
+                {"key": "action", "value": "get-medical-history"},
+                {"key": "hospital_id", "value": "1"},
+                {"key": "patient_id", "value": "1"}
+              ]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}

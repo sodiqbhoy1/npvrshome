@@ -6,15 +6,15 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import {Heart, Building2, MapPin, Mail, Phone, Lock, Eye, EyeOff, CheckCircle, AlertCircle, Shield, Users, Activity, Database } from 'lucide-react';
 import Footer from './Footer';
 import Navbar from './Navbar';
-import { Link } from 'react-router'; // Corrected import
+import { Link } from 'react-router';
 import { registerHospital } from '../../../services/hospitalService';
 import toast from 'react-hot-toast';
 
 const Signup = () => {
   // 1) Define a simple Yup schema for validation (keeps rules in one place)
   const schema = yup.object({
-    name: yup.string().trim().required('Hospital name is required'),
-    address: yup.string().trim().required('Hospital address is required'),
+    hospitalname: yup.string().trim().required('Hospital name is required'),
+    hospitaladdress: yup.string().trim().required('Hospital address is required'),
     email: yup.string().email('Please enter a valid email address').required('Email address is required'),
     phone: yup.string().trim().min(10, 'Please enter a valid phone number').required('Phone number is required'),
     password: yup.string().min(8, 'Password must be at least 8 characters long').required('Password is required'),
@@ -28,8 +28,8 @@ const Signup = () => {
   const { register, handleSubmit, watch, setError, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
-      name: '',
-      address: '',
+      hospitalname: '',
+      hospitaladdress: '',
       email: '',
       phone: '',
       password: '',
@@ -163,7 +163,7 @@ const Signup = () => {
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                   {/* Hospital Name */}
                   <div className="md:col-span-2">
-                    <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label htmlFor="hospitalname" className="block text-sm font-medium text-gray-700 mb-1.5">
                       Hospital Name *
                     </label>
                     <div className="relative">
@@ -172,26 +172,25 @@ const Signup = () => {
                       </div>
                       <input
                         type="text"
-                        id="name"
-                        // register connects this input to react-hook-form state
-                        {...register('name')}
+                        id="hospitalname"
+                        {...register('hospitalname')}
                         className={`block w-full pl-10 pr-4 py-2.5 text-gray-900 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
-                          errors.name ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
+                          errors.hospitalname ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
                         }`}
                         placeholder="Enter hospital name"
                       />
                     </div>
-                    {errors.name && (
+                    {errors.hospitalname && (
                       <p className="mt-1.5 text-sm text-red-600 flex items-center">
                         <AlertCircle className="h-4 w-4 mr-1" />
-                        {errors.name.message}
+                        {errors.hospitalname.message}
                       </p>
                     )}
                   </div>
 
                   {/* Address */}
                   <div className="md:col-span-2">
-                    <label htmlFor="address" className="block text-sm font-medium text-gray-700 mb-1.5">
+                    <label htmlFor="hospitaladdress" className="block text-sm font-medium text-gray-700 mb-1.5">
                       Hospital Address *
                     </label>
                     <div className="relative">
@@ -199,19 +198,19 @@ const Signup = () => {
                         <MapPin className="h-5 w-5 text-gray-400" />
                       </div>
                       <textarea
-                        id="address"
-                        {...register('address')}
+                        id="hospitaladdress"
+                        {...register('hospitaladdress')}
                         rows={3}
                         className={`block w-full pl-10 pr-4 py-2.5 text-gray-900 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors resize-none ${
-                          errors.address ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
+                          errors.hospitaladdress ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
                         }`}
                         placeholder="Enter complete hospital address"
                       />
                     </div>
-                    {errors.address && (
+                    {errors.hospitaladdress && (
                       <p className="mt-1.5 text-sm text-red-600 flex items-center">
                         <AlertCircle className="h-4 w-4 mr-1" />
-                        {errors.address.message}
+                        {errors.hospitaladdress.message}
                       </p>
                     )}
                   </div>

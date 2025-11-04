@@ -1,11 +1,10 @@
-import React from 'react'
-import Navbar from './Navbar'
-import Footer from './Footer'
+import React, { useState } from 'react';
+import Navbar from './Navbar';
+import Footer from './Footer';
+import { Mail, AlertCircle, Shield, ArrowLeft } from 'lucide-react';
 
-import { Mail, AlertCircle, Building2, ArrowLeft } from 'lucide-react';
-import { useState } from 'react';
-import { forgotPassword } from '../../../services/hospitalService';
 import toast from 'react-hot-toast';
+import { forgotPasswordSuperadmin } from '../../../services/superAdminService';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
@@ -28,14 +27,13 @@ const ForgotPassword = () => {
     setIsSubmitting(true);
 
     try {
-      const response = await forgotPassword({ email });
+      const response = await forgotPasswordSuperadmin({ email });
       
       if (response?.status) {
         toast.success(response?.message || 'Password reset link sent to your email');
         setSubmitted(true);
         setEmail('');
         
-        // Hide success message after 5 seconds
         setTimeout(() => setSubmitted(false), 5000);
       } else {
         toast.error(response?.message || 'Failed to send reset link');
@@ -58,7 +56,7 @@ const ForgotPassword = () => {
               {/* Header */}
               <div className="text-center mb-8">
                 <div className="inline-flex items-center justify-center p-3 bg-emerald-50 rounded-[0.3rem] border border-emerald-200 mb-4">
-                  <Building2 className="h-8 w-8 text-emerald-700" />
+                  <Shield className="h-8 w-8 text-emerald-700" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900">Forgot Password</h2>
                 <p className="text-gray-600 mt-2">Enter your registered email to reset your password</p>
@@ -86,7 +84,7 @@ const ForgotPassword = () => {
                       className={`w-full pl-10 pr-10 py-2.5 text-sm rounded-[0.3rem] border outline-none focus:border-emerald-500 transition-colors ${
                         error ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
                       } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
-                      placeholder="hospital@example.com"
+                      placeholder="admin@example.com"
                     />
                     {error && (
                       <div className="absolute right-3 top-1/2 -translate-y-1/2">
@@ -135,7 +133,7 @@ const ForgotPassword = () => {
               {/* Back to Sign In Link */}
               <div className="mt-6 text-center">
                 <a 
-                  href="/signin" 
+                  href="/superadmin/signin" 
                   className="inline-flex items-center gap-2 text-sm text-emerald-700 hover:text-emerald-800 font-medium transition-colors"
                 >
                   <ArrowLeft className="h-4 w-4" />
@@ -151,4 +149,4 @@ const ForgotPassword = () => {
   )
 }
 
-export default ForgotPassword
+export default ForgotPassword;

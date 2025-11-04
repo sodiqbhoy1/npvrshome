@@ -104,6 +104,14 @@ const Signin = () => {
                       {errors.password.message}
                     </p>
                   )}
+                  <div className="mt-2 text-right">
+                    <a 
+                      href="/superadmin/forgot-password" 
+                      className="text-sm text-emerald-700 hover:text-emerald-800 font-medium transition-colors"
+                    >
+                      Forgot password?
+                    </a>
+                  </div>
                 </div>
 
                 <button
