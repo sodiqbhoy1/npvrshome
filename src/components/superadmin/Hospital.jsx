@@ -39,7 +39,7 @@ const Hospital = () => {
     return hospitals.filter(h =>
       (h.name || '').toLowerCase().includes(q) ||
       (h.email || '').toLowerCase().includes(q) ||
-      String(h.id || '').toLowerCase().includes(q)
+      (h.state || '').toLowerCase().includes(q) 
     )
   }, [hospitals, query])
 
@@ -167,7 +167,7 @@ const Hospital = () => {
           <input
             value={query}
             onChange={e=>setQuery(e.target.value)}
-            placeholder="Search by name, email or ID"
+            placeholder="Search by name, email or state"
             className="w-full pl-10 pr-3 py-2.5 rounded-[0.3rem] border border-gray-300 focus:outline-none focus:border-emerald-500"
           />
         </div>
@@ -179,7 +179,8 @@ const Hospital = () => {
             <tr className="text-left text-gray-700">
               <th className="px-4 py-3 font-medium">Hospital</th>
               <th className="px-4 py-3 font-medium">Email</th>
-              <th className="px-4 py-3 font-medium">Phone</th>
+              <th className="px-4 py-3 font-medium">Hopsital code</th>
+              <th className="px-4 py-3 font-medium">State</th>
               <th className="px-4 py-3 font-medium">Applied</th>
               <th className="px-4 py-3 font-medium">Status</th>
               <th className="px-4 py-3 font-medium">Action</th>
@@ -198,7 +199,8 @@ const Hospital = () => {
                   </div>
                 </td>
                 <td className="px-4 py-3 text-gray-700">{h.email}</td>
-                <td className="px-4 py-3 text-gray-700">{h.phone}</td>
+                <td className="px-4 py-3 text-gray-700">{h.hospital_code}</td>
+                <td className="px-4 py-3 text-gray-700">{h.state}</td>
                 <td className="px-4 py-3 text-gray-700">{formatDate(h.created_at)}</td>
                 <td className="px-4 py-3"><StatusBadge status={h.approved} /></td>
                 <td className="px-4 py-3">

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router'
 import Navbar from './Navbar'
 import Footer from './Footer'
 import { useForm } from 'react-hook-form'
@@ -9,6 +10,8 @@ import toast from 'react-hot-toast'
 import { loginSuperAdmin } from '../../../services/superAdminService'
 
 const Signin = () => {
+  const navigate = useNavigate()
+  
   const schema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
     password: yup.string().required('Password is required')
@@ -22,20 +25,35 @@ const Signin = () => {
   const [showPassword, setShowPassword] = useState(false)
 
   const onSubmit = async (values) => {
-   try {
-    const result = await loginSuperAdmin(values)
-    localStorage.setItem('superAdminToken', result.token); // Store token
-    toast.success(result.message);
-    // Redirect or update UI as needed
+    try {
+      const result = await loginSuperAdmin(values)
+      
+      // Check if login was successful
+      if (result?.status && result?.token) {
+        // Store token
+        localStorage.setItem('superAdminToken', result.token)
+        
+        // Optionally store admin data if provided
+        if (result.admin) {
+          localStorage.setItem('superAdminData', JSON.stringify(result.admin))
+        }
+        
+        // Show success message
+        toast.success(result.message || 'Login successful!')
 
-    setTimeout(() => {
-      window.location.href = '/superadmin/dashboard';
-    }, 3000);
-
-   } catch (error) {
-    toast.error(error.message);
-   }
-   
+        // Navigate to dashboard after a short delay
+        setTimeout(() => {
+          navigate('/superadmin/dashboard')
+        }, 1500)
+      } else {
+        // Login failed - show error message
+        toast.error(result?.message || 'Login failed. Please check your credentials.')
+      }
+    } catch (error) {
+      // Handle errors from the service
+      console.error('Login error:', error)
+      toast.error(error?.message || 'An error occurred during login. Please try again.')
+    }
   }
 
   return (
@@ -62,7 +80,10 @@ const Signin = () => {
                       type="email"
                       id="email"
                       {...register('email')}
-                      className={`w-full pl-10 pr-4 py-2.5 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${errors.email ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'}`}
+                      disabled={isSubmitting}
+                      className={`w-full pl-10 pr-4 py-2.5 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
+                        errors.email ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
+                      } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                       placeholder="admin@example.com"
                     />
                     {errors.email && (
@@ -87,13 +108,17 @@ const Signin = () => {
                       type={showPassword ? 'text' : 'password'}
                       id="password"
                       {...register('password')}
-                      className={`w-full pl-10 pr-12 py-2.5 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${errors.password ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'}`}
+                      disabled={isSubmitting}
+                      className={`w-full pl-10 pr-12 py-2.5 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
+                        errors.password ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
+                      } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                       placeholder="Enter your password"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none"
+                      disabled={isSubmitting}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none disabled:cursor-not-allowed"
                     >
                       {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>
@@ -117,9 +142,18 @@ const Signin = () => {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className={`w-full py-3 px-4 rounded-[0.3rem] font-semibold text-white transition-colors flex items-center justify-center gap-2 ${isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-700'}`}
+                  className={`w-full py-3 px-4 rounded-[0.3rem] font-semibold text-white transition-colors flex items-center justify-center gap-2 ${
+                    isSubmitting ? 'bg-gray-400 cursor-not-allowed' : 'bg-emerald-600 hover:bg-emerald-700'
+                  }`}
                 >
-                  {isSubmitting ? 'Signing in…' : 'Sign In'}
+                  {isSubmitting ? (
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="animate-spin rounded-full h-5 w-5 border-2 border-white border-t-transparent"></div>
+                      Signing in...
+                    </div>
+                  ) : (
+                    'Sign In'
+                  )}
                 </button>
               </form>
 

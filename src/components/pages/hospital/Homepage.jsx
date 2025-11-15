@@ -199,14 +199,7 @@ const Homepage = () => {
           <p className="text-xl text-blue-100 mb-8">
             Join the digital health revolution that's saving lives across Nigeria
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-    <button type="button" className="bg-white text-blue-600 px-6 py-3 rounded-md font-semibold hover:bg-gray-100 transition-colors focus:outline-none">
-              Request Demo
-            </button>
-    <button type="button" className="border border-white text-white px-6 py-3 rounded-md font-semibold hover:bg-white hover:text-blue-600 transition-colors focus:outline-none">
-              Download White Paper
-            </button>
-          </div>
+
         </div>
       </section>
   {/* Footer */}

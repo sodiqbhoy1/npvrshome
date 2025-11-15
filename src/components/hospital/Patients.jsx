@@ -13,8 +13,6 @@ const Patients = () => {
     const loadPatients = async () => {
       try {
         const data = await getAllPatients();
-        // Log the raw response for debugging
-        console.log('Patients fetched:', data);
 
         // Accept array or { patients: [...] }
         const list = Array.isArray(data) ? data : data?.patients || [];
@@ -91,7 +89,7 @@ const Patients = () => {
   return (
     <div className="bg-white rounded-[0.3rem] border border-gray-200 p-6 w-full">
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
-        <h2 className="text-xl font-bold text-gray-800">Patients List</h2>
+        <h2 className="text-xl font-bold text-gray-800">Enrolled patients</h2>
         <div className="relative w-full sm:w-auto sm:min-w-[300px]">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-gray-400" />
           <input

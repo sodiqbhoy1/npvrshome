@@ -1,1 +1,1 @@
-export const API_URL = import.meta.env.VITE_API_URL || 'http://api.npvrs.kom.ng';
+export const API_URL = import.meta.env.VITE_API_URL || 'https://api.npvrs.kom.ng';

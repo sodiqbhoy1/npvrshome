@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router';
 import {Heart, Building2, MapPin, Mail, Phone, Lock, Eye, EyeOff, CheckCircle, AlertCircle, Shield, Users, Activity, Database } from 'lucide-react';
 import Footer from './Footer';
 import Navbar from './Navbar';
@@ -10,11 +11,23 @@ import { Link } from 'react-router';
 import { registerHospital } from '../../../services/hospitalService';
 import toast from 'react-hot-toast';
 
+// List of Nigerian States for the dropdown
+const nigerianStates = [
+  "Abia", "Adamawa", "Akwa Ibom", "Anambra", "Bauchi", "Bayelsa", "Benue", "Borno",
+  "Cross River", "Delta", "Ebonyi", "Edo", "Ekiti", "Enugu", "FCT - Abuja", "Gombe",
+  "Imo", "Jigawa", "Kaduna", "Kano", "Katsina", "Kebbi", "Kogi", "Kwara", "Lagos",
+  "Nasarawa", "Niger", "Ogun", "Ondo", "Osun", "Oyo", "Plateau", "Rivers", "Sokoto",
+  "Taraba", "Yobe", "Zamfara"
+];
+
 const Signup = () => {
+  const navigate = useNavigate();
+
   // 1) Define a simple Yup schema for validation (keeps rules in one place)
   const schema = yup.object({
     hospitalname: yup.string().trim().required('Hospital name is required'),
     hospitaladdress: yup.string().trim().required('Hospital address is required'),
+    state: yup.string().required('State is required').notOneOf([''], 'Please select a state'),
     email: yup.string().email('Please enter a valid email address').required('Email address is required'),
     phone: yup.string().trim().min(10, 'Please enter a valid phone number').required('Phone number is required'),
     password: yup.string().min(8, 'Password must be at least 8 characters long').required('Password is required'),
@@ -25,11 +38,12 @@ const Signup = () => {
   });
 
   // 2) Initialize react-hook-form with the schema
-  const { register, handleSubmit, watch, setError, formState: { errors, isSubmitting } } = useForm({
+  const { register, handleSubmit, watch, setError, reset, formState: { errors, isSubmitting } } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       hospitalname: '',
       hospitaladdress: '',
+      state: '',
       email: '',
       phone: '',
       password: '',
@@ -44,12 +58,25 @@ const Signup = () => {
 
   // Submit handler: sends valid data to backend and maps any field errors back to the form
   const onSubmit = async (values) => {
-  // Drop confirmPassword before sending; underscore name avoids unused-var lint
-  const { confirmPassword: _CONFIRM, ...payload } = values;
+    // Drop confirmPassword before sending; underscore name avoids unused-var lint
+    const { confirmPassword: _CONFIRM, ...payload } = values;
     try {
       const result = await registerHospital(payload);
-      console.log('Registration successful:', result);
-      toast.success('Hospital registered successfully');
+      
+      // Check if registration was successful
+      if (result?.status || result?.message) {
+        toast.success(result?.message);
+        
+        // Clear the form
+        reset();
+        
+        // Navigate to signin page after a delay
+        setTimeout(() => {
+          navigate('/signin');
+        }, 2000);
+      } else {
+        toast.error('Registration failed. Please try again.');
+      }
     } catch (error) {
       console.error('Registration failed:', error);
       // If backend sends fieldErrors like { email: 'Taken' }, attach to fields
@@ -174,9 +201,10 @@ const Signup = () => {
                         type="text"
                         id="hospitalname"
                         {...register('hospitalname')}
+                        disabled={isSubmitting}
                         className={`block w-full pl-10 pr-4 py-2.5 text-gray-900 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
                           errors.hospitalname ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
-                        }`}
+                        } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                         placeholder="Enter hospital name"
                       />
                     </div>
@@ -200,10 +228,11 @@ const Signup = () => {
                       <textarea
                         id="hospitaladdress"
                         {...register('hospitaladdress')}
+                        disabled={isSubmitting}
                         rows={3}
                         className={`block w-full pl-10 pr-4 py-2.5 text-gray-900 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors resize-none ${
                           errors.hospitaladdress ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
-                        }`}
+                        } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                         placeholder="Enter complete hospital address"
                       />
                     </div>
@@ -211,6 +240,37 @@ const Signup = () => {
                       <p className="mt-1.5 text-sm text-red-600 flex items-center">
                         <AlertCircle className="h-4 w-4 mr-1" />
                         {errors.hospitaladdress.message}
+                      </p>
+                    )}
+                  </div>
+
+                  {/* State */}
+                  <div className="md:col-span-2">
+                    <label htmlFor="state" className="block text-sm font-medium text-gray-700 mb-1.5">
+                      State *
+                    </label>
+                    <div className="relative">
+                      <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <MapPin className="h-5 w-5 text-gray-400" />
+                      </div>
+                      <select
+                        id="state"
+                        {...register('state')}
+                        disabled={isSubmitting}
+                        className={`block w-full pl-10 pr-4 py-2.5 text-gray-900 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
+                          errors.state ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
+                        } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                      >
+                        <option value="">Select State</option>
+                        {nigerianStates.map(state => (
+                          <option key={state} value={state}>{state}</option>
+                        ))}
+                      </select>
+                    </div>
+                    {errors.state && (
+                      <p className="mt-1.5 text-sm text-red-600 flex items-center">
+                        <AlertCircle className="h-4 w-4 mr-1" />
+                        {errors.state.message}
                       </p>
                     )}
                   </div>
@@ -228,9 +288,10 @@ const Signup = () => {
                         type="email"
                         id="email"
                         {...register('email')}
+                        disabled={isSubmitting}
                         className={`block w-full pl-10 pr-4 py-2.5 text-gray-900 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
                           errors.email ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
-                        }`}
+                        } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                         placeholder="hospital@example.com"
                       />
                     </div>
@@ -255,9 +316,10 @@ const Signup = () => {
                         type="tel"
                         id="phone"
                         {...register('phone')}
+                        disabled={isSubmitting}
                         className={`block w-full pl-10 pr-4 py-2.5 text-gray-900 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
                           errors.phone ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
-                        }`}
+                        } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                         placeholder="+234 xxx xxx xxxx"
                       />
                     </div>
@@ -282,15 +344,17 @@ const Signup = () => {
                         type={showPassword ? 'text' : 'password'}
                         id="password"
                         {...register('password')}
+                        disabled={isSubmitting}
                         className={`block w-full pl-10 pr-12 py-2.5 text-gray-900 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
                           errors.password ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
-                        }`}
+                        } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                         placeholder="Create a secure password"
                       />
                       <button
                         type="button"
                         onClick={() => setShowPassword(!showPassword)}
-                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600"
+                        disabled={isSubmitting}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 disabled:cursor-not-allowed"
                       >
                         {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                       </button>
@@ -338,16 +402,18 @@ const Signup = () => {
                         type={showConfirmPassword ? 'text' : 'password'}
                         id="confirmPassword"
                         {...register('confirmPassword')}
+                        disabled={isSubmitting}
                         className={`block w-full pl-10 pr-12 py-2.5 text-gray-900 border rounded-[0.3rem] focus:outline-none focus:border-emerald-500 transition-colors ${
                           errors.confirmPassword ? 'border-red-400 bg-red-50' : 'border-gray-300 bg-white'
-                        }`}
+                        } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                         placeholder="Confirm your password"
                       />
                       <div className="absolute inset-y-0 right-0 pr-3 flex items-center">
                         <button
                           type="button"
                           onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                          className="text-gray-400 hover:text-gray-600 mr-2"
+                          disabled={isSubmitting}
+                          className="text-gray-400 hover:text-gray-600 mr-2 disabled:cursor-not-allowed"
                         >
                           {showConfirmPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                         </button>
@@ -371,7 +437,8 @@ const Signup = () => {
                     id="terms"
                     type="checkbox"
                     {...register('terms')}
-                    className="h-4 w-4 mt-0.5 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded-[0.2rem]"
+                    disabled={isSubmitting}
+                    className="h-4 w-4 mt-0.5 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded-[0.2rem] disabled:cursor-not-allowed"
                   />
                   <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
                     I agree to the <a href="#" className="text-emerald-600 hover:underline">Terms of Service</a> and <a href="#" className="text-emerald-600 hover:underline">Privacy Policy</a>

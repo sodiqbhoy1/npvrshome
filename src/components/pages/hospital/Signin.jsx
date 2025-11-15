@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useNavigate } from 'react-router';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import { Building2, Mail, Lock, Eye, EyeOff, AlertCircle } from 'lucide-react';
@@ -9,6 +10,8 @@ import { loginHospital } from '../../../services/hospitalService';
 import toast from 'react-hot-toast';
 
 const Signin = () => {
+  const navigate = useNavigate();
+  
   const schema = yup.object({
     email: yup.string().email('Please enter a valid email address').required('Email address is required'),
     password: yup.string().required('Password is required')
@@ -25,14 +28,26 @@ const Signin = () => {
     try {
       const result = await loginHospital(values);
       
-      localStorage.setItem('hospitalToken', result.token);
-      toast.success(result.message);
+      // Check if login was successful
+      if (result?.status && result?.token) {
+        // Store token and hospital data
+        localStorage.setItem('hospitalToken', result.token);
+        
+        // Show success message
+        toast.success(result.message );
 
-      setTimeout(() => {
-        window.location.href = '/hospital/dashboard';
-      }, 2000);
+        // Navigate to dashboard after a short delay
+        setTimeout(() => {
+          navigate('/hospital/dashboard');
+        }, 1500);
+      } else {
+        // Login failed - show error message
+        toast.error(result?.message || 'Login failed. Please check your credentials.');
+      }
     } catch (error) {
-      toast.error(error.message);
+      // Handle errors from the service
+      console.error('Login error:', error);
+      toast.error(error?.message || 'An error occurred during login. Please try again.');
     }
   };
 
@@ -65,9 +80,10 @@ const Signin = () => {
                       type="email"
                       id="email"
                       {...register('email')}
+                      disabled={isSubmitting}
                       className={`w-full pl-10 pr-10 py-2.5 text-sm rounded-[0.3rem] border outline-none focus:border-emerald-500 transition-colors ${
                         errors.email ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
-                      }`}
+                      } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                       placeholder="hospital@example.com"
                     />
                     {errors.email && (
@@ -95,15 +111,17 @@ const Signin = () => {
                       type={showPassword ? 'text' : 'password'}
                       id="password"
                       {...register('password')}
+                      disabled={isSubmitting}
                       className={`w-full pl-10 pr-12 py-2.5 text-sm rounded-[0.3rem] border outline-none focus:border-emerald-500 transition-colors ${
                         errors.password ? 'border-red-300 bg-red-50' : 'border-gray-300 bg-white'
-                      }`}
+                      } ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
                       placeholder="Enter your password"
                     />
                     <button
                       type="button"
                       onClick={() => setShowPassword(!showPassword)}
-                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors"
+                      disabled={isSubmitting}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 focus:outline-none transition-colors disabled:cursor-not-allowed"
                     >
                       {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </button>

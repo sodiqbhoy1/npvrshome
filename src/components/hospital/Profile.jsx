@@ -10,7 +10,6 @@ const Profile = () => {
     const fetchProfile = async () => {
       try {
         const data = await getHospitalProfile();
-        console.log(data);
         
         // Extract the hospital object from the response
         setHospital(data?.hospital || {});
@@ -30,7 +29,7 @@ const Profile = () => {
         </div>
         <div>
           <h2 className="text-2xl font-bold text-gray-800">{hospital.name || 'Hospital Name'}</h2>
-          <p className="text-gray-500">Hospital ID: {hospital.id || 'N/A'}</p>
+          <p className="text-gray-500">Hospital Code: {hospital.hospital_code || 'N/A'}</p>
         </div>
       </div>
       

@@ -80,7 +80,7 @@ const AddPatients = () => {
 
   return (
     <div className="w-full bg-white rounded-[0.3rem] border border-gray-200 p-6 sm:p-8">
-      <h2 className="text-xl font-bold text-gray-800 mb-6">Add New Patient</h2>
+      <h2 className="text-xl font-bold text-gray-800 mb-6"> Enroll New Patient</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-5">
         {/* Name */}
@@ -255,7 +255,7 @@ const AddPatients = () => {
           }`}
         >
           <HeartPulse className="h-5 w-5" />
-          {isSubmitting ? 'Adding Patient...' : 'Add Patient'}
+          {isSubmitting ? 'Enrolling Patient...' : 'Enroll Patient'}
         </button>
 
         {success && (
